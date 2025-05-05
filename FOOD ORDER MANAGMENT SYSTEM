@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#define MAX_ITEMS 5
+#define MAX_ITEMS 16
 
 struct MenuItem {
     int id;
@@ -62,7 +62,18 @@ int main() {
         {2, "Burger", 150.00},
         {3, "Pasta", 200.00},
         {4, "Fries", 100.00},
-        {5, "Cold Drink", 50.00}
+        {5, "Cold Drink", 50.00},
+        {6, "PANEER TIKKA", 180.00},
+        {7, "PANEER MALAI TIKKA", 199.00},
+        {8, "MASHROOM CARY", 180.00},
+        {9, "CHICKEEN 65", 220.00},
+        {10, "FRIE BIRYANI",120.00},
+        {11, "CHICKEEN ROLL",60.00},
+        {12, "EGG ROLL", 50.00},
+        {13, "CHOCLOATE ICEREAM",35.00},
+        {14, "CARD RICE", 60.00},
+        {15, "PULIHORA", 50.00},
+        {16, "WATER BOTTLE", 10.00},
     };
 
     struct OrderItem order[10];

@@ -1,0 +1,100 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_ITEMS 5
+
+struct MenuItem {
+    int id;
+    char name[30];
+    float price;
+};
+
+struct OrderItem {
+    int id;
+    int quantity;
+};
+
+void showMenu(struct MenuItem menu[], int n) {
+    printf("\n---- Menu ----\n");
+    for (int i = 0; i < n; i++) {
+        printf("%d. %s - ₹%.2f\n", menu[i].id, menu[i].name, menu[i].price);
+    }
+}
+
+float calculateTotal(struct MenuItem menu[], struct OrderItem order[], int orderCount) {
+    float total = 0;
+    for (int i = 0; i < orderCount; i++) {
+        int id = order[i].id;
+        int qty = order[i].quantity;
+        for (int j = 0; j < MAX_ITEMS; j++) {
+            if (menu[j].id == id) {
+                total += menu[j].price * qty;
+                break;
+            }
+        }
+    }
+    return total;
+}
+
+void simulateUPIPayment(float amount, char customerName[]) {
+    char upiID[50];
+    char confirm[5];
+
+    printf("\n--- UPI Payment ---\n");
+    printf("Customer Name: %s\n", customerName);
+    printf("Total amount: ₹%.2f\n", amount);
+    printf("Enter your UPI ID: ");
+    scanf("%s", upiID);
+    printf("Confirm payment of ₹%.2f to merchant? (yes/no): ", amount);
+    scanf("%s", confirm);
+
+    if (strcmp(confirm, "yes") == 0) {
+        printf("Payment successful via UPI ID: %s\n", upiID);
+        printf("Order confirmed! Thank you, %s!\n", customerName);
+    } else {
+        printf("Payment cancelled. Order not placed.\n");
+    }
+}
+
+int main() {
+    struct MenuItem menu[MAX_ITEMS] = {
+        {1, "Pizza", 250.00},
+        {2, "Burger", 150.00},
+        {3, "Pasta", 200.00},
+        {4, "Fries", 100.00},
+        {5, "Cold Drink", 50.00}
+    };
+
+    struct OrderItem order[10];
+    int orderCount = 0, choice, qty;
+    char customerName[50];
+
+    printf("Enter your name: ");
+    fgets(customerName, sizeof(customerName), stdin);
+    // Remove newline character if present
+    customerName[strcspn(customerName, "\n")] = '\0';
+
+    showMenu(menu, MAX_ITEMS);
+
+    printf("\nPlace your order (Enter item number and quantity, 0 to finish):\n");
+
+    while (1) {
+        printf("Item ID (0 to finish): ");
+        scanf("%d", &choice);
+        if (choice == 0) break;
+
+        printf("Quantity: ");
+        scanf("%d", &qty);
+
+        order[orderCount].id = choice;
+        order[orderCount].quantity = qty;
+        orderCount++;
+    }
+
+    float total = calculateTotal(menu, order, orderCount);
+    printf("\n%s, your total bill is ₹%.2f\n", customerName, total);
+
+    simulateUPIPayment(total, customerName);
+
+    return 0;
+}
